@@ -1,1 +1,36 @@
-<p>kanban works!</p>
+<div class="board-wrapper">
+
+  <div class="row" cdkDropListGroup>
+    <mat-card class="col-lg-4 cardWithShadow theme-card m-y-5"  *ngFor="let column of board.columns">
+
+      <mat-card-header>
+        <mat-card-title class="m-b-0">{{ column.name }}</mat-card-title>
+      </mat-card-header>
+ 
+      <div class="card " cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
+        <div class="task" *ngFor="let item of column.tasks" cdkDrag>
+
+          <div class="row">
+            <div class="col-lg-12">
+              
+              <!-- {{ item }} -->
+              Order No.: XXXXXX
+            </div>
+            <div class="col-lg-6">
+              <h5>Operators:</h5>
+              <p>Juan Perez</p>
+              <p>Jonh Perez</p>
+              <p>Eutiquio Perez</p>
+            </div>
+            <div class="col-lg-6">
+              <h5>Machines:</h5>
+              <p>Locked 1</p>
+            </div>
+        </div>
+      </div>
+      </div>
+    </mat-card>
+
+  </div>
+
+</div>

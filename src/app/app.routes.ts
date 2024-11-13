@@ -18,10 +18,24 @@ export const routes: Routes = [
           import('./pages/pages.routes').then((m) => m.PagesRoutes),
       },
       {
-        path: 'ui-components',
+        path: 'Products',
         loadChildren: () =>
-          import('./pages/ui-components/ui-components.routes').then(
-            (m) => m.UiComponentsRoutes
+          import('./pages/products/products.routes').then(
+            (m) => m.ProductsRoutes
+          ),
+      },
+      {
+        path: 'Orders',
+        loadChildren: () =>
+          import('./pages/orders/orders.routes').then(
+            (m) => m.OrdersRoutes
+          ),
+      },
+      {
+        path: 'Users',
+        loadChildren: () =>
+          import('./pages/users/users.routes').then(
+            (m) => m.UsersRoutes
           ),
       },
       {

@@ -22,6 +22,7 @@
     "@angular/router": "^18.0.3",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@syncfusion/ej2-angular-kanban": "^27.1.53",
     "angular-tabler-icons": "^2.7.0",
     "apexcharts": "^3.49.0",
     "ng-apexcharts": "1.10.0",
