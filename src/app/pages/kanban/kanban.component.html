@@ -1,4 +1,4 @@
-<div class="board-wrapper">
+<div class="board-wrapper" *ngIf="loading">
 
   <div class="row" cdkDropListGroup>
     <mat-card class="col-lg-4 cardWithShadow theme-card m-y-5"  *ngFor="let column of board.columns">
@@ -14,17 +14,23 @@
             <div class="col-lg-12">
               
               <!-- {{ item }} -->
-              Order No.: XXXXXX
+              Order No.: {{ item.order_name }}
             </div>
             <div class="col-lg-6">
-              <h5>Operators:</h5>
-              <p>Juan Perez</p>
-              <p>Jonh Perez</p>
-              <p>Eutiquio Perez</p>
+              <h5>Shipped By:</h5>
+              <p>{{ item.order_ships_by }}</p>
             </div>
             <div class="col-lg-6">
-              <h5>Machines:</h5>
-              <p>Locked 1</p>
+              <h5>Amount:</h5>
+              <p><p>{{ item.amount }}</p>
+            </div>
+            <div class="col-lg-6">
+              <h5>Status:</h5>
+              <p>{{ item.state_name }}</p>
+            </div>
+            <div class="col-lg-6">
+              <h5>Arrived:</h5>
+              <p><p>{{ item.order_arrives }}</p>
             </div>
         </div>
       </div>

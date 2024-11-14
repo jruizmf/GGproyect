@@ -28,7 +28,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Users',
-    iconName: 'list',
+    iconName: 'user',
     bgcolor: 'success',
     route: '/Users/list',
   },

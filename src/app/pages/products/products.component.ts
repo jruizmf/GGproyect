@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AppTablesComponent } from '../ui-components/tables/tables.component';
+import { ProductTablesComponent } from '../ui-components/product-tables/product-tables.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [AppTablesComponent],
+  imports: [ProductTablesComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
