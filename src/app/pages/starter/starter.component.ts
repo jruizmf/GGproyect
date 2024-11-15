@@ -6,6 +6,11 @@ import { AppProductSalesComponent } from 'src/app/components/product-sales/produ
 import { AppUpcomingSchedulesComponent } from 'src/app/components/upcoming-schedules/upcoming-schedules.component';
 import { AppTopEmployeesComponent } from 'src/app/components/top-employees/top-employees.component';
 import { AppBlogComponent } from 'src/app/components/apps-blog/apps-blog.component';
+import { KanbanComponent } from '@syncfusion/ej2-angular-kanban';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { KanbanBoardComponent } from '../kanban/kanban.component';
+import { MatDialog } from '@angular/material/dialog';
+import { KanbanModalComponent } from 'src/app/components/modals/kanban-modal/kanban-modal.component';
 
 
 
@@ -19,9 +24,32 @@ import { AppBlogComponent } from 'src/app/components/apps-blog/apps-blog.compone
     AppProductSalesComponent,
     AppUpcomingSchedulesComponent,
     AppTopEmployeesComponent,
-    AppBlogComponent
+    AppBlogComponent,
+    DragDropModule,
+    KanbanBoardComponent
   ],
   templateUrl: './starter.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class StarterComponent { }
+export class StarterComponent {
+  constructor(public dialog: MatDialog) {}
+
+  openDialog() {
+    
+    /**
+     * Fullscreen dialog with 15px margins
+     * 
+     * -> to make it work, wee need extra styling on dialog component below... 
+     */
+    const dialogRef = this.dialog.open(KanbanModalComponent, {
+      height: "calc(100% - 30px)",
+      width: "calc(100% - 30px)",
+      maxWidth: "100%",
+      maxHeight: "100%"
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+ }

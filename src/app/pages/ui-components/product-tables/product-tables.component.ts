@@ -6,9 +6,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import OrderDtoModel from 'src/app/models/orderDto.model';
-import { OrderService } from 'src/app/services/order.service';
-import { KanbanBoardComponent } from '../../kanban/kanban.component';
+import { ProductService } from 'src/app/services/product.service';
 
 // table 1
 export interface productsData {
@@ -51,7 +49,7 @@ const PRODUCT_DATA: productsData[] = [
 ];
 
 @Component({
-  selector: 'app-tables',
+  selector: 'app-product-tables',
   standalone: true,
   imports: [
     MatTableModule,
@@ -61,26 +59,24 @@ const PRODUCT_DATA: productsData[] = [
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    KanbanBoardComponent
   ],
-  templateUrl: './tables.component.html',
+  templateUrl: './product-tables.component.html',
 })
-export class AppTablesComponent {
-  @Input() items: OrderDtoModel[] = [];
+export class ProductTablesComponent {
   @Input() headers: string[] = [];
   // table 1
    displayedColumns: string[] = [];
    dataSource:any[]  = [];
-   displayTable:boolean = true;
-   constructor(public _orderService: OrderService){
+   constructor(public _productService: ProductService){
 
    }
    ngOnInit(): void {
-     this._orderService.GetData().subscribe((data: any) => {
-      this.dataSource=  data.orders.map((body: any) => body) 
-      console.log(this.dataSource)
+     this._productService.GetData().subscribe((data: any) => {
+      console.log(data)
+      this.dataSource=  data.products.map((body: any) => body) 
+         
       })
-    this.displayedColumns =  this.headers;
-    
-  }
+    this.displayedColumns =  ['name', 'color', 'code', 'size', 'available']//this.headers;
+    console.log(this.dataSource)
+   }
 }

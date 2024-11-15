@@ -17,19 +17,20 @@ export const navItems: NavItem[] = [
     displayName: 'Products',
     iconName: 'list',
     bgcolor: 'accent',
-    route: '/ui-components/badge',
+    route: '/Products/list',
+
   },
   {
     displayName: 'Orders',
     iconName: 'list',
     bgcolor: 'warning',
-    route: '/ui-components/chips',
+    route: '/Orders/list',
   },
   {
     displayName: 'Users',
-    iconName: 'list',
+    iconName: 'user',
     bgcolor: 'success',
-    route: '/ui-components/lists',
+    route: '/Users/list',
   },
   // {
   //   displayName: 'Menu',
