@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 import { Board } from 'src/app/models/board.model';
 import { Column } from 'src/app/models/column.model';
@@ -17,7 +17,8 @@ import { OrderService } from 'src/app/services/order.service';
   styleUrl: './kanban.component.scss'
 })
 export class KanbanBoardComponent implements OnInit {
-
+  @Input() editable: boolean = false;
+  
   list: any[] = [];
   loading: boolean
   board: Board;
@@ -42,9 +43,27 @@ export class KanbanBoardComponent implements OnInit {
   ])*/
     drop(event: CdkDragDrop<OrderDtoModel[]>) {
       console.log(event)
+      console.log("------------")
+      console.log(event.container)
+      console.log(event.previousContainer)
+      console.log("------------")
       if (event.previousContainer === event.container) {
+        console.log("1")
+        console.log(event)
+        console.log(event.container)
+        console.log(event.previousIndex)
+        console.log(event.currentIndex)
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
+        console.log("2")
+        console.log(event)
+        console.log(event.container)
+        console.log(event.previousIndex)
+        console.log(event.currentIndex)
+        console.log(event.previousContainer.data)
+        if(event.container.id == "cdk-drop-list-1"){
+
+        }
         transferArrayItem(event.previousContainer.data,
           event.container.data,
           event.previousIndex,
@@ -55,26 +74,36 @@ export class KanbanBoardComponent implements OnInit {
       
     }
     ngOnInit(): void {
-      // this._authService.signIn({
-      //   email: 'rossette@gmail.com',
-      //   password: 'CrzxTikim723.es$'
-      // });
       this.loading = false;
-      var list = [];
-      var list2 = [];
+      var list1: any[]= [];
+      var list2: any[]= [];
+      var list3: any[]= [];
       this._orderService.GetData().subscribe((data: any) => {
-        this.list =  data.orders.map((body: any) => body) 
-        this.board= new Board('Test Board', [
-          new Column('Waiting', this.list),
-          new Column('In Process', []),
-          new Column('Shipping', [])
+        this.list =  data.orders.map((body: any) => {
+          if(body.state_name == "waiting"){
+            list1.push(body);
+          }
+          if(body.state_name == "in_progress"){
+            list2.push(body);
+          }
+          if(body.state_name == "shipping"){
+            list3.push(body);
+          }
+          return body;
+        }) 
+        this.board = new Board('Test Board', [
+          new Column('Waiting', list1),
+          new Column('In Process', list2),
+          new Column('Shipping', list3)
           
         ])
+        console.log("---------")
+        console.log(this.board)
        }
+      
     );
-      setTimeout(() => {  }, 1000);
+      setTimeout(() => {  }, 2000);
        
-      console.log(this.board)
       this.loading= true
     }
 

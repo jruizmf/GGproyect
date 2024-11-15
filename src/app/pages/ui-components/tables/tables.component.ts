@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import OrderDtoModel from 'src/app/models/orderDto.model';
 import { OrderService } from 'src/app/services/order.service';
+import { KanbanBoardComponent } from '../../kanban/kanban.component';
 
 // table 1
 export interface productsData {
@@ -60,6 +61,7 @@ const PRODUCT_DATA: productsData[] = [
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
+    KanbanBoardComponent
   ],
   templateUrl: './tables.component.html',
 })
@@ -69,6 +71,7 @@ export class AppTablesComponent {
   // table 1
    displayedColumns: string[] = [];
    dataSource:any[]  = [];
+   displayTable:boolean = true;
    constructor(public _orderService: OrderService){
 
    }
