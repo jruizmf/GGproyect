@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, OnInit, ViewEncapsulation } from '@angular/core';
 import { MaterialModule } from '../../material.module';
 import { AppProfitExpensesComponent } from 'src/app/components/profit-expenses/profit-expenses.component';
 import { AppTrafficDistributionComponent } from 'src/app/components/traffic-distribution/traffic-distribution.component';
@@ -11,7 +11,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { KanbanBoardComponent } from '../kanban/kanban.component';
 import { MatDialog } from '@angular/material/dialog';
 import { KanbanModalComponent } from 'src/app/components/modals/kanban-modal/kanban-modal.component';
-
+import 'reflect-metadata'
+import { NgIf } from '@angular/common';
 
 
 @Component({
@@ -26,21 +27,27 @@ import { KanbanModalComponent } from 'src/app/components/modals/kanban-modal/kan
     AppTopEmployeesComponent,
     AppBlogComponent,
     DragDropModule,
-    KanbanBoardComponent
+    NgIf,
+    forwardRef(() =>KanbanBoardComponent)
   ],
   templateUrl: './starter.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class StarterComponent {
-  constructor(public dialog: MatDialog) {}
+export class StarterComponent implements OnInit {
+  loading:boolean = true;
+  constructor(public dialog: MatDialog) {
+    this.loading = true
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.loading = true
+    this.loading = true
+  }
 
   openDialog() {
-    
-    /**
-     * Fullscreen dialog with 15px margins
-     * 
-     * -> to make it work, wee need extra styling on dialog component below... 
-     */
+  
     const dialogRef = this.dialog.open(KanbanModalComponent, {
       height: "calc(100% - 30px)",
       width: "calc(100% - 30px)",

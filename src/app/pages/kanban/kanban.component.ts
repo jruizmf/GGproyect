@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 import { Board } from 'src/app/models/board.model';
 import { Column } from 'src/app/models/column.model';
@@ -6,8 +6,11 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import OrderDtoModel from 'src/app/models/orderDto.model';
+import OrderDtoModel from 'src/app/models/orderShippingDto.model';
 import { OrderService } from 'src/app/services/order.service';
+import { KanbanModalComponent } from 'src/app/components/modals/kanban-modal/kanban-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { StepOrderModalComponent } from 'src/app/components/modals/step-order-modal/step-order-modal.component';
 
 @Component({
   selector: 'app-kanban',
@@ -22,55 +25,34 @@ export class KanbanBoardComponent implements OnInit {
   list: any[] = [];
   loading: boolean
   board: Board;
-/*  = new Board('Test Board', [
-    new Column('Waiting', [
-      "Some random idea",
-      "This is another random idea",
-      "build an awesome application"
-    ]),
-    new Column('In Process', [
-      "Lorem ipsum",
-      "foo",
-      "This was in the 'Research' column"
-    ]),
-    new Column('Shipping', [
-      'Get to work',
-      'Pick up groceries',
-      'Go home',
-      'Fall asleep'
-    ])
+
+    drop(event: CdkDragDrop<OrderDtoModel[]>, orderId:string) {
     
-  ])*/
-    drop(event: CdkDragDrop<OrderDtoModel[]>) {
-      console.log(event)
-      console.log("------------")
-      console.log(event.container)
-      console.log(event.previousContainer)
-      console.log("------------")
       if (event.previousContainer === event.container) {
         console.log("1")
-        console.log(event)
-        console.log(event.container)
-        console.log(event.previousIndex)
-        console.log(event.currentIndex)
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
         console.log("2")
-        console.log(event)
-        console.log(event.container)
-        console.log(event.previousIndex)
-        console.log(event.currentIndex)
         console.log(event.previousContainer.data)
+        console.log(event.container)
         if(event.container.id == "cdk-drop-list-1"){
+          console.log(event)
+          
+          
+          this.openDialog(orderId)
+        } else if(event.container.id == "cdk-drop-list-2"){
+          this._orderService.PutData({order_id:orderId, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
+         // this._orderService.PutData({order_id:"", state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
+          transferArrayItem(event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex);
+        }
 
         }
-        transferArrayItem(event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex);
-      }
+        
     }
-    constructor(public _orderService: OrderService){
+    constructor(public _orderService: OrderService, private dialog: MatDialog){
       
     }
     ngOnInit(): void {
@@ -80,10 +62,11 @@ export class KanbanBoardComponent implements OnInit {
       var list3: any[]= [];
       this._orderService.GetData().subscribe((data: any) => {
         this.list =  data.orders.map((body: any) => {
+          console.log(body.state_name)
           if(body.state_name == "waiting"){
             list1.push(body);
           }
-          if(body.state_name == "in_progress"){
+          if(body.state_name == "in progress"){
             list2.push(body);
           }
           if(body.state_name == "shipping"){
@@ -107,7 +90,21 @@ export class KanbanBoardComponent implements OnInit {
       this.loading= true
     }
 
-
+    openDialog(orderId:any) {
+  
+      const dialogRef = this.dialog.open(StepOrderModalComponent, {
+         height: "calc(100% - 30px)",
+         width: "calc(100% - 30px)",
+        maxWidth: "90%",
+        maxHeight: "100%"
+      });
+      let instance = dialogRef.componentInstance;
+      instance.orderId = orderId;
+      
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(`Dialog result: ${result}`);
+      });
+    }
   
 
 

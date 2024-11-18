@@ -5,7 +5,7 @@ import { environment as env } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class MachineService {
 
   endpoint: string = env.apiUrl;
   headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', `Bearer ${localStorage.getItem('access_token') || ''}`);
@@ -13,7 +13,7 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
   GetData() {
-    return this.http.get<any[]>(this.endpoint + "/api/v1/products", this.options);
+    return this.http.get<any[]>(this.endpoint + "/api/v1/machines", this.options);
   }
 
 }
