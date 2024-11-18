@@ -26,7 +26,7 @@ export class KanbanBoardComponent implements OnInit {
   loading: boolean
   board: Board;
 
-    drop(event: CdkDragDrop<OrderDtoModel[]>, orderId:string) {
+    drop(event: CdkDragDrop<OrderDtoModel[]>, order:any[]) {
     
       if (event.previousContainer === event.container) {
         console.log("1")
@@ -39,9 +39,9 @@ export class KanbanBoardComponent implements OnInit {
           console.log(event)
           
           
-          this.openDialog(orderId)
+          this.openDialog(order[event.currentIndex].id)
         } else if(event.container.id == "cdk-drop-list-2"){
-          this._orderService.PutData({order_id:orderId, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
+          this._orderService.PutData({order_id: order[event.currentIndex].id, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
          // this._orderService.PutData({order_id:"", state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
           transferArrayItem(event.previousContainer.data,
             event.container.data,
