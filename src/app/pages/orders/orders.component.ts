@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AppTablesComponent } from '../ui-components/tables/tables.component';
 import { OrderService } from 'src/app/services/order.service';
 import { AuthService } from 'src/app/services/auth.service';
-import OrderDtoModel from 'src/app/models/orderDto.model';
+import OrderDtoModel from 'src/app/models/orderShippingDto.model';
 import { NgIf } from '@angular/common';
 import { finalize } from 'rxjs';
 

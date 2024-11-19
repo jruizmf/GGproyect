@@ -4,32 +4,33 @@
     <mat-card class="col-lg-4 cardWithShadow theme-card m-y-5"  *ngFor="let column of board?.columns; let i = index">
 
       <mat-card-header>
-        <mat-card-title class="m-b-0">{{ column.name }}</mat-card-title>
+        <mat-card-title class="m-b-0" align="center"><h2 style="text-align: center;">{{ column.name }}</h2></mat-card-title>
       </mat-card-header>
  
-      <div class="card tasks-container" cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event)">
+      <div class="card tasks-container" cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event,column.tasks)">
         <div class="task" *ngFor="let item of column.tasks" cdkDrag>
-
+            
           <div class="row">
             <div class="col-lg-12">
               <!-- {{ item }} -->
-              Order No.: {{ item.order_name }}
+              <h1>  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
+              
             </div>
             <div class="col-lg-6">
-              <h5>Shipped By:</h5>
-              <p>{{ item.order_ships_by }}</p>
+              <h3>Shipping date:</h3>
+              <p style="font-size: 1.25rem;">{{ item.order_ships_by | date:'dd/MM/yyyy'}}</p>
             </div>
             <div class="col-lg-6">
-              <h5>Amount:</h5>
-              <p><p>{{ item.amount }}</p>
+              <h3>Quantity:</h3>
+              <p style="font-size: 1.25rem;">{{ item.amount }}</p>
             </div>
             <div class="col-lg-6">
-              <h5>Status:</h5>
-              <p>{{ item.state_name }}</p>
+              <h3>Status:</h3>
+              <p style="font-size: 1.25rem;">{{ item.state_name }}</p>
             </div>
             <div class="col-lg-6">
-              <h5>Arrived:</h5>
-              <p><p>{{ item.order_arrives }}</p>
+              <h3>Arrived:</h3>
+              <p style="font-size: 1.25rem;">{{ item.order_arrives  | date:'dd/MM/yyyy' }}</p>
             </div>
         </div>
       </div>

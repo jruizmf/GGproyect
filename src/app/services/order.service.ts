@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 import { environment as env } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
-import OrderDtoModel from '../models/orderDto.model';
+import OrderTakeDtoModel from '../models/orderTakeDto.model';
+import OrderShippingDtoModel from '../models/orderShippingDto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
   endpoint: string = env.apiUrl;
-  headers = new HttpHeaders().set('Content-Type', 'application/json')//.set('Authorization', `Bearer ${localStorage.getItem('access_token') || ''}`);
+  headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', `Bearer ${localStorage.getItem('access_token') || ''}`);
+  options: any = { headers: this.headers };
   constructor(private http: HttpClient, private _authService: AuthService) {
   }
   GetData(): Observable<any> {
@@ -21,7 +23,36 @@ export class OrderService {
       .set("page_size", 3)
       .set("page", 1);
 
-    return  this.http.get(this.endpoint + "/api/v1/orders", {headers: this.headers, params});
+    return  this.http.get(this.endpoint + "/api/v1/orders-table", {headers: this.headers, params});
   }
+  PostData(body:any): Observable<any> {
+    
+    console.log(localStorage.getItem('access_token'))
+    const params = new HttpParams()
+      .set("state_name", 'waiting')
+      .set("page_size", 3)
+      .set("page", 1);
 
+    return  this.http.post(this.endpoint + "/api/v1/orders-table", body, {headers: this.headers, params});
+  }
+  TakeOrder(body:OrderTakeDtoModel): Observable<any> {
+    
+    console.log(localStorage.getItem('access_token'))
+    const params = new HttpParams()
+      .set("state_name", 'waiting')
+      .set("page_size", 3)
+      .set("page", 1);
+
+    return  this.http.post(this.endpoint + "/api/v1/operator-take-order", body,{headers: this.headers, params});
+  }
+  PutData(body:OrderShippingDtoModel): Observable<any> {
+    
+    console.log(localStorage.getItem('access_token'))
+    const params = new HttpParams()
+      .set("state_name", 'waiting')
+      .set("page_size", 3)
+      .set("page", 1);
+
+    return  this.http.put(this.endpoint + "/api/v1/orders", body,{headers: this.headers, params});
+  }
 }

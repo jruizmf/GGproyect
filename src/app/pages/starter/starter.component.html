@@ -1,9 +1,16 @@
 <div class="row">
-  <div class="col-lg-12" [align]="'end'">
-    <button mat-button (click)="openDialog()" style="color: #FFFFFF; background-color: transparent; font-size: 2rem;"><mat-icon class="f-s-24">fullscreen</mat-icon></button>
+  <div class="col-lg-12" [align]="'end'" style="height: 2rem;">
+    <button class="icon-button-large"
+            mat-icon-button
+            color="#FFFFFF"
+            (click)="openDialog()"
+            matTooltip="Click for expand the dashboard section."
+            matTooltipPosition="below"
+          >
+      <mat-icon>fullscreen</mat-icon></button>
   </div>
-  <div class="col-lg-12">
-    <app-kanban [editable]="false"></app-kanban>
+  <div class="col-lg-12" *ngIf="loading">
+     <app-kanban [editable]="false"></app-kanban> 
   </div>
   <!-- <div class="col-lg-12">
     <app-profit-expenses></app-profit-expenses>
@@ -23,4 +30,4 @@
   </div>
 </div>
 
-<app-blog></app-blog>
+<!-- <app-blog></app-blog> -->

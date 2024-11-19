@@ -17,15 +17,16 @@ export class AuthService {
   // Sign-in
   signIn(auth: AuthDtoModel) {
     console.log(auth)
+    let options = { headers: this.headers };
     return this.http
-      .post<any>(`${this.endpoint}/api/v1/tokens/authentication`, auth)
+      .post<any>(`${this.endpoint}/api/v1/tokens/authentication`, auth, options)
       .subscribe((res: any) => {
         console.log(res)
         localStorage.setItem('access_token', res.authentication_token.token);
         // this.getUserProfile(res.data.id).subscribe((res) => {
         //   this.currentUser = res;
-        //   //this.router.navigate(['/dashboard']);
-        // });
+          this.router.navigate(['/dashboard']);
+       // });
       }, (error: any) =>{ console.log('oops', error)}
       );
   }

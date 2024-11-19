@@ -6,7 +6,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import OrderDtoModel from 'src/app/models/orderDto.model';
+import OrderDtoModel from 'src/app/models/orderShippingDto.model';
 import { OrderService } from 'src/app/services/order.service';
 import { KanbanBoardComponent } from '../../kanban/kanban.component';
 

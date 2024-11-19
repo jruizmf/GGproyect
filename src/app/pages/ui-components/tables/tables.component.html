@@ -2,7 +2,11 @@
   <mat-card-header class="p-t-24">
       <div class="d-flex align-items-center justify-content-between w-100">
           <mat-card-title>Orders</mat-card-title>
-          <button mat-icon-button color="inherit" (click)="displayTable = !displayTable" aria-label="Example icon-button with a menu">
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle (click)="displayTable = true">list</mat-button-toggle>
+            <mat-button-toggle (click)="displayTable = false">Kanban</mat-button-toggle>
+          </mat-button-toggle-group>
+          <button mat-icon-button color="inherit"  aria-label="Example icon-button with a menu">
               <mat-icon class="f-s-24 d-flex align-items-center justify-content-center">more_vert</mat-icon>
           </button>
       </div>
