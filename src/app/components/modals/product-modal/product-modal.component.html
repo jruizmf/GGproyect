@@ -1,0 +1,88 @@
+<div class="col-lg-6">
+    <div class="d-flex align-items-start align-items-lg-center justify-content-center">
+      <div class="row justify-content-center w-100">
+        <div class="col-lg-11">
+         
+
+
+          <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Product Name</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="product_name" />
+              @if(f['product_name'].touched && f['product_name'].invalid) {
+              <mat-hint class="m-b-16 error-msg">
+                @if( f['product_name'].errors &&
+                f['product_name'].errors['required']) {
+                <div class="text-error">Name is required.</div>
+                } @if(f['product_name'].errors &&
+                f['product_name'].errors['minlength']) {
+                <div class="text-error">
+                  Name should be 6 character.
+                </div>
+                }
+              </mat-hint>
+              }
+            </mat-form-field>
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Product Code</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput formControlName="product_code" />
+              @if(f['product_code'].touched && f['product_code'].invalid) {
+              <mat-hint class="m-b-16 error-msg">
+                @if( f['product_code'].errors &&
+                f['product_code'].errors['required']) {
+                <div class="text-error">Code is required.</div>
+                } @if(f['product_code'].errors &&
+                f['product_code'].errors['minlength']) {
+                <div class="text-error">
+                  Code should be 6 character.
+                </div>
+                }
+              </mat-hint>
+              }
+            </mat-form-field>
+
+            <!-- <mat-form-field>
+              <mat-label>Machines</mat-label>
+              <mat-select formControlName="size_id" multiple>
+                @for (m of sizes; track m) {
+                  <mat-option [value]="m.id">{{m.size_name}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field> -->
+            <!-- email
+            <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Email Address</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput type="email" formControlName="email" />
+              @if(f['order_ships_by'].touched && f['order_ships_by'].invalid) {
+              <mat-hint class="m-b-16 error-msg">
+                @if(f['order_ships_by'].errors &&
+                f['order_ships_by'].errors['required']) {
+                <div class="text-error">Email is required.</div>
+                }
+              </mat-hint>
+              }
+            </mat-form-field> -->
+            <!-- password -->
+            <!-- <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Amount</mat-label>
+            <mat-form-field appearance="outline" class="w-100" color="primary">
+              <input matInput type="number" formControlName="amount" />
+              @if(f['amount'].touched && f['amount'].invalid) {
+              <mat-hint class="m-b-16 error-msg">
+                @if(f['amount'].errors &&
+                f['amount'].errors['required']) {
+                <div class="text-error">Amount is required.</div>
+                }
+              </mat-hint>
+              }
+            </mat-form-field> -->
+
+            <button mat-flat-button color="primary" class="w-100" [disabled]="!form.valid">
+              Add Order
+            </button>
+            <!-- input -->
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
