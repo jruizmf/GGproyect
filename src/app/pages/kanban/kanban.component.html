@@ -9,30 +9,76 @@
  
       <div class="card tasks-container" cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event,column.tasks)">
         <div class="task" *ngFor="let item of column.tasks" cdkDrag>
-            
-          <div class="row">
-            <div class="col-lg-12">
-              <!-- {{ item }} -->
-              <h1>  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
+          @if (column.name  == 'Waiting') {
+            <div class="row" style="height: 14rem;">
+              <div class="col-lg-12">
+                <!-- {{ item }} -->
+                <h1 style="line-height: 0.6rem;">  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
+                
+              </div>
+              <div class="col-lg-6">
+                <h2>Quantity:</h2>
+                <p style="font-size: 1.35rem;">{{ item.quantity }}</p>
+              </div>
+              <div class="col-lg-6">
+                <h2>Amount:</h2>
+                <p style="font-size: 1.35rem;">{{ item.amount | currency }}</p>
+              </div>
               
-            </div>
-            <div class="col-lg-6">
-              <h3>Shipping date:</h3>
-              <p style="font-size: 1.25rem;">{{ item.order_ships_by | date:'dd/MM/yyyy'}}</p>
-            </div>
-            <div class="col-lg-6">
-              <h3>Quantity:</h3>
-              <p style="font-size: 1.25rem;">{{ item.amount }}</p>
-            </div>
-            <div class="col-lg-6">
-              <h3>Status:</h3>
-              <p style="font-size: 1.25rem;">{{ item.state_name }}</p>
-            </div>
-            <div class="col-lg-6">
-              <h3>Arrived:</h3>
-              <p style="font-size: 1.25rem;">{{ item.order_arrives  | date:'dd/MM/yyyy' }}</p>
-            </div>
-        </div>
+              
+          </div>
+          } @else if (column.name  == 'In Process'){
+            <div class="row" style="height: 14rem;">
+              <div class="col-lg-12">
+                <!-- {{ item }} -->
+                <h1 style="line-height: 0.6rem;">  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
+                
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Quantity:</h2>
+                <!-- <p style="font-size: 1.25rem;">{{ item.order_ships_by * 1000 | date:'dd/MM/yyyy'}}</p> -->
+                <p style="font-size: 1.25rem;">{{ item.quantity }}</p>
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Amount:</h2>
+                <p style="font-size: 1.25rem;">{{ item.amount | currency}}</p>
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Operators:</h2>
+                <p style="font-size: 1.25rem;">{{ item.operatos }}</p>
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Machines:</h2>
+                <p style="font-size: 1.25rem;">{{ item.machines }}</p>
+              </div>
+          </div>
+          } @else{
+            <div class="row" style="height: 14rem;">
+              <div class="col-lg-12">
+                <!-- {{ item }} -->
+                <h1 style="line-height: 0.6rem;">  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
+                
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Quantity:</h2>
+                <!-- <p style="font-size: 1.25rem;">{{ item.order_ships_by * 1000 | date:'dd/MM/yyyy'}}</p> -->
+                <p style="font-size: 1.25rem;">{{ item.quantity }}</p>
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Amount:</h2>
+                <p style="font-size: 1.25rem;">{{ item.amount | currency}}</p>
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Operators:</h2>
+                <p style="font-size: 1.25rem;">{{ item.operatos }}</p>
+              </div>
+              <div class="col-lg-6">
+                <h2 style="line-height: 0.6rem;">Machines:</h2>
+                <p style="font-size: 1.25rem;">{{ item.machines }}</p>
+              </div>
+          </div>
+          }
+          
       </div>
       </div>
     </mat-card>

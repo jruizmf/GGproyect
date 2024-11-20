@@ -1,5 +1,5 @@
 import OrderDtoModel from "./orderShippingDto.model";
 
 export class Column {
-    constructor(public name: string, public tasks: any[]) {}
+    constructor(public statusId: string, public name: string, public tasks: any[]) {}
 }

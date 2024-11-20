@@ -1,9 +1,12 @@
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>X</button>
+  </mat-dialog-actions>
 <div class="col-lg-12">
     <div class="d-flex align-items-start align-items-lg-center justify-content-center">
       <div class="row justify-content-center w-100">
         
 
-          <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
+          <form class="m-t-10" [formGroup]="form" (ngSubmit)="submit()">
             <!-- <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Order Name</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
               <input matInput formControlName="order_name" />
@@ -35,7 +38,7 @@
             </mat-form-field> -->
             <!-- password -->
           
-            <mat-form-field>
+            <mat-form-field style="width: 100%;">
                 <mat-label>Machines</mat-label>
                 <mat-select formControlName="machine" multiple>
                   @for (m of machines; track m) {
