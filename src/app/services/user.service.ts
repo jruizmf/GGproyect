@@ -14,11 +14,11 @@ endpoint: string = env.apiUrl;
   constructor(public http: HttpClient) { }
 
   GetData() {
-    return this.http.get<any[]>(this.endpoint + "/api/v1/users", this.options);
+    return this.http.get<any[]>(this.endpoint + "/api/v1/users");
   }
 
   GetCurrentUser() {
-    return this.http.get<any[]>(this.endpoint + "/api/v1/get-user", this.options);
+    return this.http.get<any>(this.endpoint + "/api/v1/get-user");
   }
 
   create(data:any): Observable<any>{

@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { UsersComponent } from '../users/users.component';
 import { OrdersComponent } from './orders.component';
 
 // ui

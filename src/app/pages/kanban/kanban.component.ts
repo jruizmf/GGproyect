@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Inject, Input, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList, DragDropModule } from '@angular/cdk/drag-drop';
 import { Board } from 'src/app/models/board.model';
 import { Column } from 'src/app/models/column.model';
@@ -9,15 +9,20 @@ import { MatIconModule } from '@angular/material/icon';
 import OrderDtoModel from 'src/app/models/orderShippingDto.model';
 import { OrderService } from 'src/app/services/order.service';
 import { KanbanModalComponent } from 'src/app/components/modals/kanban-modal/kanban-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { StepOrderModalComponent } from 'src/app/components/modals/step-order-modal/step-order-modal.component';
 import { StatusService } from 'src/app/services/status.service';
 import Swal from 'sweetalert2';
+import { KanbanComponent } from '@syncfusion/ej2-angular-kanban';
 
 @Component({
   selector: 'app-kanban',
   standalone: true,
   imports: [DragDropModule, NgFor, NgIf, MatCardModule, DatePipe,MatIconModule, MaterialModule,CommonModule],
+  providers: [
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: { data: {} } }
+],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.scss'
 })
@@ -32,7 +37,7 @@ export class KanbanBoardComponent implements OnInit {
       console.log(order,)
       if (event.previousContainer === event.container) {
         console.log("1")
-        this._orderService.PutData({order_id: order[event.currentIndex].id, state_id :"f08868db-9106-44f5-a5b5-8a13164a5773"})
+        this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f08868db-9106-44f5-a5b5-8a13164a5773"})
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
         console.log("2")
@@ -57,7 +62,7 @@ export class KanbanBoardComponent implements OnInit {
               console.log(event)
               console.log(order[event.currentIndex].id)
               
-              this._orderService.PutData({order_id: order[event.currentIndex].id, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"}).subscribe((data: any) => {
+              this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"}).subscribe((data: any) => {
                 console.log(data)
               })
               // this._orderService.PutData({order_id:"", state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
@@ -76,8 +81,9 @@ export class KanbanBoardComponent implements OnInit {
         }
         
     }
-    constructor(public _orderService: OrderService, public _statusService: StatusService, private dialog: MatDialog){
-      
+    constructor(public _orderService: OrderService, public _statusService: StatusService, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data: any,
+    private parentDilogRef: MatDialogRef<KanbanComponent>){
+      console.log(data)
     }
     ngOnInit(): void {
       this.loading = false;
@@ -104,13 +110,13 @@ export class KanbanBoardComponent implements OnInit {
         
         var columnsArray : Column[]= []
         var arrays: any[] = []
-        this._statusService.GetData().subscribe((data2: any) => {
-          console.log(data2.states)
-          arrays = data2.states.map((body: any) => { 
+        // this._statusService.GetData().subscribe((data2: any) => {
+        //   console.log(data2.states)
+        //   arrays = data2.states.map((body: any) => { 
            
-            return body;
-          })
-        })
+        //     return body;
+        //   })
+        // })
         console.log(arrays)
         this.board = new Board('Test Board', [
           new Column('', 'Waiting', list1),
@@ -129,7 +135,7 @@ export class KanbanBoardComponent implements OnInit {
     }
 
     openDialog(orderId:any) {
-  
+      
       const dialogRef = this.dialog.open(StepOrderModalComponent, {
         height: '300px',
         width: '450px',

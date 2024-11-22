@@ -11,13 +11,11 @@ import OrderShippingDtoModel from '../models/orderShippingDto.model';
 })
 export class OrderService {
   endpoint: string = env.apiUrl;
-  headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', `Bearer ${localStorage.getItem('access_token') || ''}`);
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
   options: any = { headers: this.headers };
   constructor(private http: HttpClient, private _authService: AuthService) {
   }
   GetData(): Observable<any> {
-    
-    console.log(localStorage.getItem('access_token'))
     const params = new HttpParams()
       .set("state_name", 'waiting')
       .set("page_size", 3)
@@ -26,8 +24,6 @@ export class OrderService {
     return  this.http.get(this.endpoint + "/api/v1/orders-table", {headers: this.headers, params});
   }
   PostData(body:any): Observable<any> {
-    
-    console.log(localStorage.getItem('access_token'))
     const params = new HttpParams()
       .set("state_name", 'waiting')
       .set("page_size", 3)
@@ -35,24 +31,14 @@ export class OrderService {
 
     return  this.http.post(this.endpoint + "/api/v1/orders-table", body, {headers: this.headers, params});
   }
-  TakeOrder(body:OrderTakeDtoModel): Observable<any> {
-    
-    console.log(localStorage.getItem('access_token'))
-    const params = new HttpParams()
-      .set("state_name", 'waiting')
-      .set("page_size", 3)
-      .set("page", 1);
+  TakeOrder(body:any): Observable<any> {
+    var headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return  this.http.post(this.endpoint + "/api/v1/operator-take-order", body,{headers: this.headers, params});
+    return  this.http.post(this.endpoint + "/api/v1/orders/change-order-status", body, {headers: headers});
   }
   PutData(body:OrderShippingDtoModel): Observable<any> {
-    
-    console.log(localStorage.getItem('access_token'))
-    const params = new HttpParams()
-      .set("state_name", 'waiting')
-      .set("page_size", 3)
-      .set("page", 1);
+    var headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return  this.http.put(this.endpoint + "/api/v1/orders", body,{headers: this.headers, params});
+    return  this.http.put(this.endpoint + "/api/v1/orders", body,{headers: headers});
   }
 }
