@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment as env } from 'src/environments/environment';
 import AuthDtoModel from '../models/Dto/authDto.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   endpoint: string = env.apiUrl;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
-  constructor(private http: HttpClient, public router: Router) {}
+  constructor(private http: HttpClient, public router: Router, private _userService: UserService) {}
   // Sign-in
   signIn(auth: AuthDtoModel) {
     console.log(auth)
@@ -23,9 +24,39 @@ export class AuthService {
       .subscribe((res: any) => {
         console.log(res)
         localStorage.setItem('access_token', res.authentication_token.token);
+        
         // this.getUserProfile(res.data.id).subscribe((res) => {
         //   this.currentUser = res;
-          this.router.navigate(['/dashboard']);
+        this._userService.GetCurrentUser().subscribe({
+          next: res2 => {
+            console.log(res2.permissions)
+            console.log(res2.permissions[0])
+            console.log(res2.permissions[1])
+            console.log(res2.user)
+            localStorage.setItem('name', res2.user.first_name+' '+res2.user.last_name)
+            if (res2.permissions.length > 0) {
+              var isAdmin = false;
+              res2.permissions.forEach((p: string) => {
+                if (p = 'user:admin') {
+                  isAdmin = true;
+                } 
+                if (isAdmin == true) {
+                  localStorage.setItem('role', 'Admin');
+                } else {
+                  localStorage.setItem('role', 'Operator');
+                }
+                this.router.navigate(['/dashboard']);
+              });
+            }
+
+          },
+          error: e => {
+            console.log(e)
+            alert("Error")
+          },
+        });
+         
+
        // });
       }, (error: any) =>{ console.log('oops', error)}
       );
@@ -39,8 +70,10 @@ export class AuthService {
   }
   doLogout() {
     let removeToken = localStorage.removeItem('access_token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('name');
     if (removeToken == null) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     }
   }
   // User profile

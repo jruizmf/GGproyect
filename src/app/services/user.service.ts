@@ -10,7 +10,16 @@ export class UserService {
 
 endpoint: string = env.apiUrl;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
+  options: any = { headers: this.headers };
   constructor(public http: HttpClient) { }
+
+  GetData() {
+    return this.http.get<any[]>(this.endpoint + "/api/v1/users");
+  }
+
+  GetCurrentUser() {
+    return this.http.get<any>(this.endpoint + "/api/v1/get-user");
+  }
 
   create(data:any): Observable<any>{
     const headers = { 'content-type': 'application/json'}  

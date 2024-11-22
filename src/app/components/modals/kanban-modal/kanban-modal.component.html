@@ -1,10 +1,18 @@
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>X</button>
-  </mat-dialog-actions>
-<mat-dialog-content class="mat-typography">
-    <div>
-        <app-kanban [editable]="false"></app-kanban>
-    </div>
 
-</mat-dialog-content>
+  
+  <div style="padding: 0 5rem;">
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>X</button>
+      </mat-dialog-actions>
+    <mat-dialog-content class="mat-typography">
+        <div [align]="'center'">
+            <h1>Dashboard</h1>
+        </div>
+        <div>
+            <app-kanban [editable]="false"></app-kanban>
+        </div>
+    
+    </mat-dialog-content>
+  </div>
+
 

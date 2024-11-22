@@ -22,7 +22,7 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Orders',
-    iconName: 'list',
+    iconName: 'receipt',
     bgcolor: 'warning',
     route: '/Orders/list',
   },

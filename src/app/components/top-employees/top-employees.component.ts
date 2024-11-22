@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from 'src/app/material.module';
+import { UserService } from 'src/app/services/user.service';
 
 export interface productsData {
   id: number;
@@ -65,6 +66,18 @@ const ELEMENT_DATA: productsData[] = [
   templateUrl: './top-employees.component.html',
 })
 export class AppTopEmployeesComponent {
-  displayedColumns: string[] = ['profile', 'hrate', 'skills', 'status'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = [];
+  dataSource:any[]  = [];
+  constructor(public _userService: UserService){
+
+  }
+  ngOnInit(): void {
+    this._userService.GetData().subscribe((data: any) => {
+     console.log(data)
+     this.dataSource=  data.users.map((body: any) => body) 
+        
+     })
+   this.displayedColumns =  ['profile', 'email', 'status']//this.headers;
+   console.log(this.dataSource)
+  }
 }

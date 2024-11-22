@@ -8,7 +8,7 @@ import { environment as env } from 'src/environments/environment';
 export class MachineService {
 
   endpoint: string = env.apiUrl;
-  headers = new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', `Bearer ${localStorage.getItem('access_token') || ''}`);
+  headers = new HttpHeaders().set('Content-Type', 'application/json');
   options: any = { headers: this.headers };
   constructor(private http: HttpClient) {
   }
