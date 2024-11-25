@@ -5,6 +5,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
      const userToken = localStorage.getItem('access_token') || ""; 
      console.log(typeof localStorage.getItem('access_token'))
      console.log(localStorage.getItem('access_token'))
+     req.headers.set('Content-Type', 'application/json')
      if ( localStorage.getItem('access_token') != '' && localStorage.getItem('access_token') != null) {
       const modifiedReq = req.clone({
         headers: req.headers.set('Authorization', `Bearer ${userToken}`),

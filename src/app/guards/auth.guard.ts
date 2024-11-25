@@ -1,11 +1,9 @@
 import { CanActivateFn } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 export const AuthGuard: CanActivateFn = (route, state) => {
-  console.log(route);
-  console.log(state)
-    // if (!this.auth.isAuthenticated()) {
-    //   this.router.navigate(['login']);
-    //   return false;
-    // }
+  
+    if (localStorage.getItem('access_token') == '' && localStorage.getItem('access_token') == null) {
+      return false;
+    }
     return true;
 };

@@ -1,7 +1,7 @@
 <div class="board-wrapper" *ngIf="loading">
 
   <div class="row" cdkDropListGroup>
-    <mat-card class="col-lg-4 cardWithShadow theme-card m-y-5"  *ngFor="let column of board?.columns; let i = index" style="padding: 0 1rem;">
+    <mat-card class="col-lg-4 cardWithShadow theme-card m-y-5"  *ngFor="let column of board?.columns; let i = index" style="padding: 0 1rem; border-right: 1px solid #334F5E !important;">
 
       <mat-card-header>
         <mat-card-title class="m-b-0" align="center"><h2 style="text-align: center;">{{ column.name }}</h2></mat-card-title>
