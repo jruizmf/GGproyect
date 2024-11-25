@@ -43,7 +43,13 @@ export class KanbanBoardComponent implements OnInit {
           event.container.data,
           event.previousIndex,
           event.currentIndex);
-        if(event.container.id == "cdk-drop-list-1"){
+          console.log(event.container.id)
+          if(event.container.id == "cdk-drop-list-0"){
+            this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f08868db-9106-44f5-a5b5-8a13164a5773"}).subscribe((data: any) => {
+              Swal.fire("Saved!", "", "success");
+             })
+          }
+        else if(event.container.id == "cdk-drop-list-1"){
           this.openDialog(order[event.currentIndex].id)
         } else if(event.container.id == "cdk-drop-list-2"){
           Swal.fire({
@@ -100,13 +106,13 @@ export class KanbanBoardComponent implements OnInit {
               }) 
               var columnsArray : Column[]= []
               var arrays: any[] = []
-              // this._statusService.GetData().subscribe((data2: any) => {
-              //   console.log(data2.states)
-              //   arrays = data2.states.map((body: any) => { 
+              this._statusService.GetData().subscribe((data2: any) => {
+                console.log(data2.states)
+                arrays = data2.states.map((body: any) => { 
                  
-              //     return body;
-              //   })
-              // })
+                  return body;
+                })
+              })
               console.log(arrays)
               this.board = new Board('Test Board', [
                 new Column('', 'Waiting', list1),
@@ -147,6 +153,7 @@ export class KanbanBoardComponent implements OnInit {
       
       dialogRef.afterClosed().subscribe(result => {
         console.log(`Dialog result: ${result}`);
+        window.location.reload();
       });
     }
   
