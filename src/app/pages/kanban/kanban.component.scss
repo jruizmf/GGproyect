@@ -116,3 +116,23 @@
 .tasks-container.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+.val-value-full{
+    font-size: 1.25rem;
+}
+.val-value{
+    font-size: 1.35rem;
+}
+.item-order{
+    height: 14rem;
+}
+@media (max-width: 1920px) {
+    .item-order{
+        height: 12rem;
+    }
+    .val-value{
+        font-size: 1.1rem;
+    }
+    .val-value-full{
+        font-size: 1rem;
+    }
+  }
