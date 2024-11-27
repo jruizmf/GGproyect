@@ -10,10 +10,10 @@
       <div class="card tasks-container" cdkDropList [cdkDropListData]="column.tasks" (cdkDropListDropped)="drop($event,column.tasks)">
         <div class="task" *ngFor="let item of column.tasks" style="padding: 1rem;" cdkDrag>
           @if (column.name  == 'Waiting') {
-            <div class="row item-order" >
+            <div class="row item-order" style="border-left: 0.6rem solid green;">
               <div class="col-lg-12">
                 <!-- {{ item }} -->
-                <h1 style="line-height: 0.6rem;">  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
+                <h1 style="line-height: 0.6rem;">{{ item.order_name | uppercase  }} </h1>
                 
               </div>
               <div class="col-lg-6">
@@ -28,10 +28,10 @@
               
           </div>
           } @else if (column.name  == 'In Process'){
-            <div class="row item-order">
+            <div class="row item-order" style="border-left: 0.6rem solid yellow;">
               <div class="col-lg-12">
                 <!-- {{ item }} -->
-                <h1 style="line-height: 0.5rem;">  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
+                <h1 style="line-height: 0.5rem;">{{ item.order_name | uppercase  }}  </h1>
                 
               </div>
               <div class="col-lg-6">
@@ -53,11 +53,19 @@
               </div>
           </div>
           } @else{
-            <div class="row item-order" >
-              <div class="col-lg-12">
-                <!-- {{ item }} -->
-                <h1 style="line-height: 0.4rem;">  <b>Order No.:</b> {{ item.order_name | uppercase  }}</h1>
-                
+            <div class="row item-order" style="border-left: 0.6rem solid red;">
+              <div class="col-lg-6">
+                <h1 style="line-height: 0.4rem;">{{ item.order_name | uppercase  }}     </h1>
+              </div>
+              <div class="col-lg-6" [align]="'end'" >
+                <button class="icon-button-small"
+                        mat-icon-button
+                        color="#FFFFFF"
+                        (click)="finishOrder(item)"
+                        matTooltip="Click for pass Order to Done."
+                        matTooltipPosition="below"
+                      >
+                  <mat-icon>send</mat-icon></button>
               </div>
               <div class="col-lg-6">
                 <h2 class="val-label-full" style="line-height: 0.5rem;">Quantity:</h2>
