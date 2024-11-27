@@ -8,7 +8,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import OrderDtoModel from 'src/app/models/orderShippingDto.model';
 import { OrderService } from 'src/app/services/order.service';
-import { KanbanModalComponent } from 'src/app/components/modals/kanban-modal/kanban-modal.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { StepOrderModalComponent } from 'src/app/components/modals/step-order-modal/step-order-modal.component';
 import { StatusService } from 'src/app/services/status.service';
@@ -35,23 +34,85 @@ export class KanbanBoardComponent implements OnInit {
   board: Board;
 
     drop(event: CdkDragDrop<OrderDtoModel[]>, order:any[]) {
-      console.log(order,)
+      console.log(order)
       if (event.previousContainer === event.container) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
-        transferArrayItem(event.previousContainer.data,
-          event.container.data,
-          event.previousIndex,
-          event.currentIndex);
+       
           console.log(event.container.id)
           if(event.container.id == "cdk-drop-list-0"){
-            this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f08868db-9106-44f5-a5b5-8a13164a5773"}).subscribe((data: any) => {
-              Swal.fire("Saved!", "", "success");
-             })
+            transferArrayItem(event.previousContainer.data,
+              event.container.data,
+              event.previousIndex,
+              event.currentIndex);
+            this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f08868db-9106-44f5-a5b5-8a13164a5773"}).subscribe({
+              next: (data) => {
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Order moved successfully!",
+                  showConfirmButton: false,
+                  timer: 2000
+                });
+              },
+              error: (e) => {
+                transferArrayItem(event.previousContainer.data,
+                  event.container.data,
+                  event.previousIndex,
+                  event.currentIndex);
+              
+                if (e.response.status_code == 401) {
+                  Swal.fire({
+                    position: "center",
+                    icon: "warning",
+                    title: "Session expired!",
+                    text: 'You will be redirected to login.',
+                    showConfirmButton: false,
+                    timer: 4000
+                  });
+                  this._authService.doLogout()
+                } else if (e.response.status_code == 404) {
+                  let error = "";
+                  if (typeof e.response.errors == 'undefined' &&  e.response.errors.length > 0) {
+                    e.response.errors.forEach((item:any) => {
+                      error = error + ' ' +item.user
+                    });
+                  }
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Something was wrong!",
+                    text: error,
+                    showConfirmButton: false,
+                    timer: 4000
+                  });
+                } else{
+                  Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Something was wrong!" ,
+                    text: e.toString(),
+                    showConfirmButton: false,
+                    timer: 4000
+                  });
+                }
+                window.location.reload()
+              },
+              complete: () => console.log(),
+            })
           }
         else if(event.container.id == "cdk-drop-list-1"){
+          transferArrayItem(event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex);
           this.openDialog(order[event.currentIndex].id)
+         
         } else if(event.container.id == "cdk-drop-list-2"){
+          transferArrayItem(event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex);
           Swal.fire({
             title: "Do you want to save the changes?",
             icon:"warning",
@@ -62,21 +123,66 @@ export class KanbanBoardComponent implements OnInit {
           }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-             
-              this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"}).subscribe((data: any) => {
-               Swal.fire("Saved!", "", "success");
+              console.log(order)
+             console.log(order[event.currentIndex].id)
+              this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"}).subscribe({
+                next: (data) => {
+                  
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Order moved successfully!",
+                    showConfirmButton: false,
+                    timer: 2000
+                  });
+                },
+                error: (e) => {
+                  console.log(event.container.data)
+                  console.log(event.previousIndex)
+                  console.log(event.currentIndex)
+                  if (e.error.response.status_code == 401) {
+                    Swal.fire({
+                      position: "center",
+                      icon: "warning",
+                      title: "Session expired!",
+                      text: 'You will be redirected to login.',
+                      showConfirmButton: false,
+                      timer: 4000
+                    });
+                    this._authService.doLogout()
+                  } else if (e.error.response.status_code == 404) {
+                    let error = "";
+                  
+                    Swal.fire({
+                      position: "center",
+                      icon: "error",
+                      title: "Something was wrong!",
+                      text: e.error.response.errors.user,
+                      showConfirmButton: false,
+                      timer: 4000
+                    });
+                  } else{
+                    Swal.fire({
+                      position: "center",
+                      icon: "error",
+                      title: "Something was wrong!" ,
+                      text: e.toString(),
+                      showConfirmButton: false,
+                      timer: 4000
+                    });
+                  }
+                  window.location.reload()
+                },
+                complete: () => console.log(),
               })
-              // this._orderService.PutData({order_id:"", state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
+              
              
             } else if (result.isDenied) {
               Swal.fire("Changes are not saved", "", "info");
             }
           });
-         
         }
-      
-        }
-        
+      }
     }
     constructor(public _orderService: OrderService, public _authService: AuthService, public _statusService: StatusService, private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data: any,
     private parentDilogRef: MatDialogRef<KanbanComponent>){
@@ -89,27 +195,23 @@ export class KanbanBoardComponent implements OnInit {
       var list3: any[]= [];
        this._orderService.GetData().subscribe({
         next: (data) => {
+          console.log(data.orders)
           this.list =  data.orders.map((body: any) => {
                 if(body.state_name == "waiting"){
                   list1.push(body);
                 }
                 if(body.state_name == "in progress"){
-                  
-                  
                   list2.push(body);
                 }
                 if(body.state_name == "shipping"){
-                  
                   list3.push(body);
                 }
                 return body;
               }) 
-              var columnsArray : Column[]= []
+              
               var arrays: any[] = []
               this._statusService.GetData().subscribe((data2: any) => {
-                console.log(data2.states)
                 arrays = data2.states.map((body: any) => { 
-                 
                   return body;
                 })
               })
@@ -118,28 +220,28 @@ export class KanbanBoardComponent implements OnInit {
                 new Column('', 'Waiting', list1),
                 new Column('','In Process', list2),
                 new Column('','Shipping', list3)
-                
               ])
-              console.log("---------")
-              console.log(this.board)
-             
         },
         error: (e) => {
-          console.log(e);
-          this._authService.doLogout()
+          if (e.error.response.status_code == 401) {
+            Swal.fire({
+              position: "center",
+              icon: "warning",
+              title: "Session expired!",
+              text: 'You will be redirected to login.',
+              showConfirmButton: false,
+              timer: 4000
+            });
+            this._authService.doLogout()
+          }
         },
         complete: () => console.log(),
       })
-       
-       
-      
-      setTimeout(() => {  }, 2000);
        
       this.loading= true
     }
 
     openDialog(orderId:any) {
-      
       const dialogRef = this.dialog.open(StepOrderModalComponent, {
         height: '300px',
         width: '450px',
@@ -153,16 +255,22 @@ export class KanbanBoardComponent implements OnInit {
       
       dialogRef.afterClosed().subscribe(result => {
         console.log(`Dialog result: ${result}`);
-        window.location.reload();
+         window.location.reload();
       });
     }
-  
 
 
-  private  getData() :  any {
-   
-   // this.list = this._orderService.GetData() as OrderDtoModel[];
-     
+  public finishOrder(item:any) :  void {
+    this._orderService.TakeOrder({order_id: item.id, state_id :"6a374462-2eb9-4c64-b5aa-80509033176a"}).subscribe((data: any) => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Order moved successfully!",
+        showConfirmButton: false,
+        timer: 4000
+      });
+      window.location.reload();
+    })
   }
 
 }
