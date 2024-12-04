@@ -9,6 +9,7 @@ export const navItems: NavItem[] = [
     iconName: 'layout-dashboard',
     bgcolor: 'primary',
     route: '/dashboard',
+    roleAllowed: true
   },
   {
     navCap: 'Modules',
@@ -18,60 +19,20 @@ export const navItems: NavItem[] = [
     iconName: 'list',
     bgcolor: 'accent',
     route: '/Products/list',
-
+    roleAllowed: true
   },
   {
     displayName: 'Orders',
     iconName: 'receipt',
     bgcolor: 'warning',
     route: '/Orders/list',
+    roleAllowed: true
   },
   {
     displayName: 'Users',
     iconName: 'user',
     bgcolor: 'success',
     route: '/Users/list',
-  },
-  // {
-  //   displayName: 'Menu',
-  //   iconName: 'layout-navbar-expand',
-  //   bgcolor: 'error',
-  //   route: '/ui-components/menu',
-  // },
-  // {
-  //   displayName: 'Tooltips',
-  //   iconName: 'tooltip',
-  //   bgcolor: 'primary',
-  //   route: '/ui-components/tooltips',
-  // },
-  // {
-  //   navCap: 'Auth',
-  // },
-  // {
-  //   displayName: 'Login',
-  //   iconName: 'lock',
-  //   bgcolor: 'accent',
-  //   route: '/authentication/login',
-  // },
-  // {
-  //   displayName: 'Register',
-  //   iconName: 'user-plus',
-  //   bgcolor: 'warning',
-  //   route: '/authentication/register',
-  // },
-  // {
-  //   navCap: 'Extra',
-  // },
-  // {
-  //   displayName: 'Icons',
-  //   iconName: 'mood-smile',
-  //   bgcolor: 'success',
-  //   route: '/extra/icons',
-  // },
-  // {
-  //   displayName: 'Sample Page',
-  //   iconName: 'aperture',
-  //   bgcolor: 'error',
-  //   route: '/extra/sample-page',
-  // },
+    roleAllowed: localStorage.getItem('role') == 'Admin'? true : false
+  }
 ];
