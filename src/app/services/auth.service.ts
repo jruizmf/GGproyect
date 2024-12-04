@@ -22,25 +22,20 @@ export class AuthService {
     return this.http
       .post<any>(`${this.endpoint}/api/v1/tokens/authentication`, auth, options)
       .subscribe((res: any) => {
-        console.log(res)
         localStorage.setItem('access_token', res.authentication_token.token);
         
         // this.getUserProfile(res.data.id).subscribe((res) => {
         //   this.currentUser = res;
         this._userService.GetCurrentUser().subscribe({
           next: res2 => {
-            console.log(res2.permissions)
-            console.log(res2.permissions[0])
-            console.log(res2.permissions[1])
-            console.log(res2.user)
             localStorage.setItem('name', res2.user.first_name+' '+res2.user.last_name)
             if (res2.permissions.length > 0) {
               var isAdmin = false;
               res2.permissions.forEach((p: string) => {
-                if (p = 'user:admin') {
+                if (p == 'user:admin') {
                   isAdmin = true;
                 } 
-                if (isAdmin == true) {
+                if (isAdmin) {
                   localStorage.setItem('role', 'Admin');
                 } else {
                   localStorage.setItem('role', 'Operator');
@@ -52,7 +47,7 @@ export class AuthService {
           },
           error: e => {
             console.log(e)
-            alert("Error")
+            alert("Error in Login")
           },
         });
          

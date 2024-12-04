@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { KanbanModalComponent } from 'src/app/components/modals/kanban-modal/kanban-modal.component';
 import 'reflect-metadata'
 import { NgIf } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -26,6 +28,7 @@ import { NgIf } from '@angular/common';
     AppUpcomingSchedulesComponent,
     AppTopEmployeesComponent,
     AppBlogComponent,
+    MatProgressSpinnerModule,
     DragDropModule,
     NgIf,
     forwardRef(() =>KanbanBoardComponent)
@@ -37,12 +40,22 @@ export class StarterComponent implements OnInit {
   loading:boolean = true;
   constructor(public dialog: MatDialog) {
     this.loading = true
+    Swal.fire({
+      position: "center",
+      icon: "info",
+      title: "loading!",
+      showConfirmButton: false,
+      timer: 3000
+    });
+    this.loading = false
   }
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.loading = true
+    this.loading = false
+
+
     this.loading = true
   }
 

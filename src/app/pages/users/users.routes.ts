@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { UsersComponent } from './users.component';
 import { OrdersComponent } from '../orders/orders.component';
+import { AuthGuard } from 'src/app/guards/auth.guard';
+import { roleGuard } from 'src/app/guards/role.guard';
 
 // ui
 // import { AppBadgeComponent } from './badge/badge.component';
@@ -17,6 +19,7 @@ export const UsersRoutes: Routes = [
     children: [
       {
         path: 'list',
+        canActivate: [AuthGuard, roleGuard], 
         component: UsersComponent,
       },
       // {

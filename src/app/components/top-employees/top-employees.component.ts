@@ -4,6 +4,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from 'src/app/material.module';
 import { UserService } from 'src/app/services/user.service';
+import { OrderService } from 'src/app/services/order.service';
+import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+import { AddUserComponent } from '../modals/add-user/add-user.component';
 
 export interface productsData {
   id: number;
@@ -68,7 +72,7 @@ const ELEMENT_DATA: productsData[] = [
 export class AppTopEmployeesComponent {
   displayedColumns: string[] = [];
   dataSource:any[]  = [];
-  constructor(public _userService: UserService){
+  constructor(public _userService: UserService, public _orderService: OrderService, private dialog: MatDialog){
 
   }
   ngOnInit(): void {
@@ -77,7 +81,38 @@ export class AppTopEmployeesComponent {
      this.dataSource=  data.users.map((body: any) => body) 
         
      })
-   this.displayedColumns =  ['profile', 'email', 'status']//this.headers;
+   this.displayedColumns =  ['profile', 'email', 'status', 'actions']//this.headers;
    console.log(this.dataSource)
   }
+  public openDialog(orderId:any) {
+    const dialogRef = this.dialog.open(AddUserComponent, {
+      height: '300px',
+      width: '450px',
+      maxWidth: "100%",
+      maxHeight: "100%"
+    });
+    let instance = dialogRef.componentInstance;
+   // instance.orderId = orderId;
+   
+    console.log(orderId)
+    
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+       window.location.reload();
+    });
+  }
+
+
+public UnableUser(item:any) :  void {
+  this._userService.UnableUser({user_id :item.id}).subscribe((data: any) => {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "User moved successfully!",
+      showConfirmButton: false,
+      timer: 4000
+    });
+    window.location.reload();
+  })
+}
 }

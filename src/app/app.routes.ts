@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
+import { AuthGuard } from './guards/auth.guard';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -19,6 +21,7 @@ export const routes: Routes = [
       },
       {
         path: 'Products',
+        canActivate: [AuthGuard], 
         loadChildren: () =>
           import('./pages/products/products.routes').then(
             (m) => m.ProductsRoutes
@@ -26,6 +29,7 @@ export const routes: Routes = [
       },
       {
         path: 'Orders',
+        canActivate: [AuthGuard], 
         loadChildren: () =>
           import('./pages/orders/orders.routes').then(
             (m) => m.OrdersRoutes
@@ -33,6 +37,7 @@ export const routes: Routes = [
       },
       {
         path: 'Users',
+        canActivate: [AuthGuard, roleGuard], 
         loadChildren: () =>
           import('./pages/users/users.routes').then(
             (m) => m.UsersRoutes

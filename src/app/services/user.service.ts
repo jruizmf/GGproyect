@@ -22,9 +22,11 @@ endpoint: string = env.apiUrl;
   }
 
   create(data:any): Observable<any>{
-    const headers = { 'content-type': 'application/json'}  
     let body = JSON.stringify(data);
-    return this.http.post<any>(this.endpoint, body, {'headers':headers}).pipe(catchError(this.handleError));
+    return this.http.post<any>(this.endpoint+"/api/v1/admin/users", body);
+  }
+  UnableUser(body:any) {
+    return this.http.patch<any>(this.endpoint + "/api/v1/admin/users", body);
   }
   handleError(error: HttpErrorResponse) {
     let msg = '';

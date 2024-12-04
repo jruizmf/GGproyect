@@ -56,12 +56,13 @@ export class KanbanBoardComponent implements OnInit {
                 });
               },
               error: (e) => {
-                transferArrayItem(event.previousContainer.data,
-                  event.container.data,
-                  event.previousIndex,
-                  event.currentIndex);
+                console.log(e)
+                console.log(e.error)
+                console.log(e.error.response)
+                console.log(e.error.response.status_code)
+             
               
-                if (e.response.status_code == 401) {
+                if (e.error.response.status_code == 401) {
                   Swal.fire({
                     position: "center",
                     icon: "warning",
@@ -71,13 +72,9 @@ export class KanbanBoardComponent implements OnInit {
                     timer: 4000
                   });
                   this._authService.doLogout()
-                } else if (e.response.status_code == 404) {
+                } else if (e.error.response.status_code == 404) {
                   let error = "";
-                  if (typeof e.response.errors == 'undefined' &&  e.response.errors.length > 0) {
-                    e.response.errors.forEach((item:any) => {
-                      error = error + ' ' +item.user
-                    });
-                  }
+                  error = e.error.response.errors.user;
                   Swal.fire({
                     position: "center",
                     icon: "error",
@@ -96,6 +93,7 @@ export class KanbanBoardComponent implements OnInit {
                     timer: 4000
                   });
                 }
+                
                 window.location.reload()
               },
               complete: () => console.log(),
@@ -125,7 +123,8 @@ export class KanbanBoardComponent implements OnInit {
             if (result.isConfirmed) {
               console.log(order)
              console.log(order[event.currentIndex].id)
-              this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"}).subscribe({
+              this._orderService.TakeOrder({order_id: order[event.currentIndex].id, state_id :"f896d295-0b83-4e10-9f59-259e819b0731"})
+              .subscribe({
                 next: (data) => {
                   
                   Swal.fire({
@@ -137,9 +136,6 @@ export class KanbanBoardComponent implements OnInit {
                   });
                 },
                 error: (e) => {
-                  console.log(event.container.data)
-                  console.log(event.previousIndex)
-                  console.log(event.currentIndex)
                   if (e.error.response.status_code == 401) {
                     Swal.fire({
                       position: "center",
