@@ -22,8 +22,7 @@ endpoint: string = env.apiUrl;
   }
 
   create(data:any): Observable<any>{
-    let body = JSON.stringify(data);
-    return this.http.post<any>(this.endpoint+"/api/v1/admin/users", body);
+    return this.http.post<any>(this.endpoint+"/api/v1/admin/users", data);
   }
   UnableUser(body:any) {
     return this.http.patch<any>(this.endpoint + "/api/v1/admin/users", body);

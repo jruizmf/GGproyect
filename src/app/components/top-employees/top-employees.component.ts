@@ -82,35 +82,33 @@ export class AppTopEmployeesComponent {
         
      })
    this.displayedColumns =  ['profile', 'email', 'status', 'actions']//this.headers;
-   console.log(this.dataSource)
+
   }
-  public openDialog(orderId:any) {
+   public openDialog() {
     const dialogRef = this.dialog.open(AddUserComponent, {
-      height: '300px',
-      width: '450px',
+    
+      width: '500px',
       maxWidth: "100%",
       maxHeight: "100%"
     });
     let instance = dialogRef.componentInstance;
-   // instance.orderId = orderId;
-   
-    console.log(orderId)
-    
+
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
        window.location.reload();
     });
   }
 
 
 public UnableUser(item:any) :  void {
+  console.log(item.id)
   this._userService.UnableUser({user_id :item.id}).subscribe((data: any) => {
+    console.log(data)
     Swal.fire({
       position: "center",
       icon: "success",
       title: "User moved successfully!",
       showConfirmButton: false,
-      timer: 4000
+      timer: 6000
     });
     window.location.reload();
   })

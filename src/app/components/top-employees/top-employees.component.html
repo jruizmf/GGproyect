@@ -6,7 +6,7 @@
                 <mat-icon class="f-s-24 d-flex align-items-center justify-content-center">more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item onclick="openDialog()">Add User</button>
+                <button mat-menu-item (click)="openDialog()">Add User</button>
                 <!-- <button mat-menu-item>Disable User</button> -->
               </mat-menu>
         </div>
@@ -82,7 +82,7 @@
                             <mat-icon class="f-s-24 d-flex align-items-center justify-content-center">more_vert</mat-icon>
                         </button>
                         <mat-menu #menu1="matMenu">
-                            <button mat-menu-item onclick="UnableUser(item)">Disable User</button>
+                            <button mat-menu-item (click)="UnableUser(element)">Disable User</button>
                           </mat-menu>
                     </td>
                 </ng-container>
